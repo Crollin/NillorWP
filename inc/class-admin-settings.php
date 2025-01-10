@@ -150,6 +150,20 @@ class AdminSettings {
             'creactive-settings',
             'myaccount_tabs_section'
         );
+        add_settings_field(
+            'my_account_tab_3_slug',
+            'Slug de l’onglet 3',
+            [__CLASS__, 'field_my_account_tab_3_slug'],
+            'creactive-settings',
+            'myaccount_tabs_section'
+        );
+        add_settings_field(
+            'my_account_tab_3_label',
+            'Label de l’onglet 3',
+            [__CLASS__, 'field_my_account_tab_3_label'],
+            'creactive-settings',
+            'myaccount_tabs_section'
+        );
 
     }
 
