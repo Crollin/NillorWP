@@ -12,7 +12,7 @@ class MyAccountTabs {
         $options = get_option('creactive_settings');
         $tab1 = $options['my_account_tab_1_slug'] ?? 'mes-tarifs';
         $tab2 = $options['my_account_tab_2_slug'] ?? 'mes-demandes-de-devis';
-        $tab2 = $options['my_account_tab_3_slug'] ?? 'mes-factures';
+        $tab3 = $options['my_account_tab_3_slug'] ?? 'mes-factures';
 
         add_action("woocommerce_account_{$tab1}_endpoint", [ __CLASS__, 'contenuTarifs' ]);
         add_action("woocommerce_account_{$tab2}_endpoint", [ __CLASS__, 'contenuDevis' ]);
