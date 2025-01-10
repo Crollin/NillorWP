@@ -83,16 +83,62 @@ class MyAccountTabs {
     }
 
     public static function contenuFactures() {
+        // Identifiant de l’utilisateur actuel
         $user_id = get_current_user_id();
-        // ex. ACF get_field
-        $factures_url = get_field('factures', 'user_'.$user_id);
-
-        echo '<h3>Mes factures</h3>';
-        if ($factures_url) {
-            echo '<p>Veuillez trouver ci-dessous vos factures. :</p>';
-            echo '<a class="button" href="' . esc_url($factures_url) . '">Télécharger</a>';
+    
+        // Récupération du répéteur "factures" depuis le user (ex. user_12)
+        $factures = get_field('factures', 'user_' . $user_id);
+    
+        echo '<h3>Mes Factures</h3>';
+    
+        // Si le répéteur existe et n’est pas vide
+        if ($factures && is_array($factures)) {
+            
+            echo '<p>Veuillez trouver ci-dessous toutes vos factures :</p>';
+            echo '<ul style="list-style: disc; margin-left: 20px;">';
+            
+            // Boucle sur chaque “ligne” du répéteur
+            foreach ($factures as $facture_item) {
+    
+                // Sous-champ texte : numero_de_commande
+                // Ex. "Commande #12345"
+                $numero_de_commande = isset($facture_item['numero_de_commande'])
+                    ? $facture_item['numero_de_commande']
+                    : 'Sans numéro de commande';
+    
+                // Sous-champ fichier : facture
+                // C’est un array type ACF { url, filename, ... }
+                $facture_file = isset($facture_item['facture'])
+                    ? $facture_item['facture']
+                    : null;
+    
+                // On récupère l’URL si le sous-champ "facture" existe
+                $facture_url = (is_array($facture_file) && !empty($facture_file['url']))
+                    ? $facture_file['url']
+                    : '';
+    
+                echo '<li style="margin-bottom: 10px;">';
+    
+                // Affiche le numéro de commande
+                echo '<strong>Commande : ' . esc_html($numero_de_commande) . '</strong><br>';
+    
+                if ($facture_url) {
+                    echo '<a class="button" href="' . esc_url($facture_url) . '" target="_blank">';
+                    echo 'Télécharger la facture';
+                    echo '</a>';
+                } else {
+                    echo '<em>Aucun fichier de facture n’est disponible.</em>';
+                }
+    
+                echo '</li>';
+            }
+    
+            echo '</ul>';
+    
         } else {
+            // Si aucune ligne dans le répéteur
             echo '<p>Aucune facture n’est disponible.</p>';
         }
-    }
+    }   
+    
 }

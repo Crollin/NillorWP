@@ -67,3 +67,7 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 = 2.3.7 = 
 * AJout des factures clients depuis le back-office.
 * Affichages des factures clients sur la page compte du client.
+
+= 2.3.8 =
+* AJout du champs répéteur pour les factures
+* Récupération des factures via une boucle 
