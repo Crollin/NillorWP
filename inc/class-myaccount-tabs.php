@@ -83,62 +83,95 @@ class MyAccountTabs {
     }
 
     public static function contenuFactures() {
-        // Identifiant de l’utilisateur actuel
         $user_id = get_current_user_id();
-    
-        // Récupération du répéteur "factures" depuis le user (ex. user_12)
+        // Récupérer le répéteur "factures"
         $factures = get_field('factures', 'user_' . $user_id);
     
         echo '<h3>Mes Factures</h3>';
     
-        // Si le répéteur existe et n’est pas vide
         if ($factures && is_array($factures)) {
-            
-            echo '<p>Veuillez trouver ci-dessous toutes vos factures :</p>';
-            echo '<ul style="list-style: disc; margin-left: 20px;">';
-            
-            // Boucle sur chaque “ligne” du répéteur
+    
+            // On affiche un mini CSS inline pour styliser le tableau
+            echo '<style>
+                table.mes-factures-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 20px;
+                }
+                table.mes-factures-table th, table.mes-factures-table td {
+                    border: 1px solid #ddd;
+                    padding: 10px;
+                    text-align: left;
+                    vertical-align: middle;
+                }
+                table.mes-factures-table th {
+                    background: #f9f9f9;
+                }
+                .facture-icone {
+                    width: 32px;
+                    height: 32px;
+                    margin-right: 8px;
+                    vertical-align: middle;
+                }
+                .facture-pdf-icon {
+                    width: 24px;
+                    height: auto;
+                    margin-right: 5px;
+                    vertical-align: middle;
+                }
+            </style>';
+    
+            // Petite icône PDF (exemple), stockée quelque part dans le plugin ou en ligne
+            // Tu peux la remplacer par l’URL de ton image ou icône
+            $pdf_icon_url = CREACTIVEWEB_PLUGIN_URL . 'inc/pdf-icon.png'; 
+            // (à toi de mettre l'image "pdf-icon.png" dans ton dossier inc/)
+    
+            echo '<table class="mes-factures-table">';
+            echo '<thead>
+                    <tr>
+                        <th>Numéro de commande</th>
+                        <th>Facture</th>
+                    </tr>
+                  </thead>';
+            echo '<tbody>';
+    
             foreach ($factures as $facture_item) {
-    
-                // Sous-champ texte : numero_de_commande
-                // Ex. "Commande #12345"
-                $numero_de_commande = isset($facture_item['numero_de_commande'])
+                // Sous-champ "numero_de_commande" (texte)
+                $numero_de_commande = !empty($facture_item['numero_de_commande'])
                     ? $facture_item['numero_de_commande']
-                    : 'Sans numéro de commande';
+                    : 'Sans numéro';
+                
+                // Sous-champ "facture" (fichier)
+                $facture_file = !empty($facture_item['facture']) ? $facture_item['facture'] : null;
+                $facture_url  = (is_array($facture_file) && !empty($facture_file['url'])) ? $facture_file['url'] : '';
     
-                // Sous-champ fichier : facture
-                // C’est un array type ACF { url, filename, ... }
-                $facture_file = isset($facture_item['facture'])
-                    ? $facture_item['facture']
-                    : null;
+                echo '<tr>';
     
-                // On récupère l’URL si le sous-champ "facture" existe
-                $facture_url = (is_array($facture_file) && !empty($facture_file['url']))
-                    ? $facture_file['url']
-                    : '';
+                // 1) Colonne du numéro de commande
+                echo '<td>' . esc_html($numero_de_commande) . '</td>';
     
-                echo '<li style="margin-bottom: 10px;">';
-    
-                // Affiche le numéro de commande
-                echo 'Commande n° : <strong>' . esc_html($numero_de_commande) . '</strong><br>';
-    
+                // 2) Colonne du lien de téléchargement
+                echo '<td>';
                 if ($facture_url) {
-                    echo '<a class="button" href="' . esc_url($facture_url) . '" target="_blank">';
+                    // Petit logo PDF (ou “miniature” si on veut)
+                    echo '<a href="' . esc_url($facture_url) . '" target="_blank" style="text-decoration: none;">';
+                    echo '<img class="facture-pdf-icon" src="' . esc_url($pdf_icon_url) . '" alt="PDF">';
                     echo 'Télécharger la facture';
                     echo '</a>';
                 } else {
-                    echo '<em>Aucun fichier de facture n’est disponible.</em>';
+                    echo '<em>Aucun fichier disponible.</em>';
                 }
+                echo '</td>';
     
-                echo '</li>';
+                echo '</tr>';
             }
     
-            echo '</ul>';
+            echo '</tbody></table>';
     
         } else {
-            // Si aucune ligne dans le répéteur
             echo '<p>Aucune facture n’est disponible.</p>';
         }
-    }   
+    }
+      
     
 }

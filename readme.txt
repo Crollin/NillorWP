@@ -72,3 +72,4 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 * AJout du champs répéteur pour les factures
 * Récupération des factures via une boucle 
 * Ajout de la modification du titre de l'onglet 'Mes factures' depuis le back-office
+* Personnalisationd de la présentation des factures client sous forme de tableau avec bouton de téléchargement et mignature PDF
