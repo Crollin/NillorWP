@@ -38,3 +38,6 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 = 2.2 =
 * Ajout d’une page d’options plus stylisée
 * Personnalisation des onglets "Mon compte" et infos
+
+= 2.3 = 
+* Changement de fonctionnement pour la recherche SKU
