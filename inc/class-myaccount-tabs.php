@@ -16,7 +16,7 @@ class MyAccountTabs {
 
         add_action("woocommerce_account_{$tab1}_endpoint", [ __CLASS__, 'contenuTarifs' ]);
         add_action("woocommerce_account_{$tab2}_endpoint", [ __CLASS__, 'contenuDevis' ]);
-        add_action("woocommerce_account_{$tab2}_endpoint", [ __CLASS__, 'contenuFactures' ]);
+        add_action("woocommerce_account_{$tab3}_endpoint", [ __CLASS__, 'contenuFactures' ]);
     }
 
     public static function ajouterMenuMonCompte($items) {
@@ -82,15 +82,15 @@ class MyAccountTabs {
         }
     }
 
-    public static function contenuTarifs() {
+    public static function contenuFactures() {
         $user_id = get_current_user_id();
         // ex. ACF get_field
-        $tarif_url = get_field('factures', 'user_'.$user_id);
+        $factures_url = get_field('factures', 'user_'.$user_id);
 
         echo '<h3>Mes factures</h3>';
-        if ($tarif_url) {
+        if ($factures_url) {
             echo '<p>Veuillez trouver ci-dessous vos factures. :</p>';
-            echo '<a class="button" href="' . esc_url($tarif_url) . '">Télécharger</a>';
+            echo '<a class="button" href="' . esc_url($factures_url) . '">Télécharger</a>';
         } else {
             echo '<p>Aucune facture n’est disponible.</p>';
         }
