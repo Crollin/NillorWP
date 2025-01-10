@@ -83,7 +83,6 @@ class AdminSettings {
             'creactive-settings',
             'sku_search_section'
         );
-    }
     
 
         // --- SECTION 3 : Personnalisation “Infos Mon compte” ---
