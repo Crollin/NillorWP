@@ -11,14 +11,17 @@ class AdminSettings {
         add_action('admin_enqueue_scripts', [ __CLASS__, 'adminScripts' ]);
     }
 
+    /**
+     * Ajoute la page "Creactive" au menu d’admin
+     */
     public static function addMenuPage() {
         add_menu_page(
-            'Creactive', 
-            'Creactive', 
-            'manage_options',
-            'creactive-settings', 
+            'Creactive - Paramètres',   // Titre de la page
+            'Creactive Paramètres',     // Label du menu
+            'manage_options',           // Capability
+            'creactive-settings',       // Slug
             [ __CLASS__, 'renderSettingsPage' ],
-            'dashicons-admin-generic',
+            'dashicons-admin-generic',  // Icône
             80
         );
     }
@@ -147,6 +150,40 @@ class AdminSettings {
             'myaccount_tabs_section'
         );
 
+        // --- SECTION 5 : Personnalisation du Widget du Dashboard ---
+        add_settings_section(
+            'dashboard_widget_section',
+            'Paramètres du Widget du Dashboard',
+            function() {
+                echo '<p>Personnalisez le widget affiché sur le tableau de bord.</p>';
+            },
+            'creactive-settings'
+        );
+
+        // Titre du widget
+        add_settings_field(
+            'dashboard_widget_title',
+            'Titre du Widget',
+            [__CLASS__, 'field_dashboard_widget_title'],
+            'creactive-settings',
+            'dashboard_widget_section'
+        );
+        // Sous-titre
+        add_settings_field(
+            'dashboard_widget_subtitle',
+            'Sous-titre du Widget',
+            [__CLASS__, 'field_dashboard_widget_subtitle'],
+            'creactive-settings',
+            'dashboard_widget_section'
+        );
+        // Message
+        add_settings_field(
+            'dashboard_widget_message',
+            'Message du Widget',
+            [__CLASS__, 'field_dashboard_widget_message'],
+            'creactive-settings',
+            'dashboard_widget_section'
+        );
     }
 
     // -----------------------------------------------------
@@ -259,6 +296,45 @@ class AdminSettings {
         $options = get_option('creactive_settings');
         $val = $options['my_account_tab_2_form_id'] ?? '';
         echo '<input type="number" name="creactive_settings[my_account_tab_2_form_id]" value="'.esc_attr($val).'" style="width: 100px;">';
+    }
+
+    // -----------------------------------------------------
+    // Champs "Dashboard Widget"
+    // -----------------------------------------------------
+    public static function field_dashboard_widget_title() {
+        $options = get_option('creactive_settings');
+        $val = isset($options['dashboard_widget_title']) 
+               ? $options['dashboard_widget_title'] 
+               : 'Mon Widget';
+        ?>
+        <input type="text" name="creactive_settings[dashboard_widget_title]"
+               value="<?php echo esc_attr($val); ?>"
+               style="width: 300px;">
+        <?php
+    }
+
+    public static function field_dashboard_widget_subtitle() {
+        $options = get_option('creactive_settings');
+        $val = isset($options['dashboard_widget_subtitle'])
+               ? $options['dashboard_widget_subtitle']
+               : '';
+        ?>
+        <input type="text" name="creactive_settings[dashboard_widget_subtitle]"
+               value="<?php echo esc_attr($val); ?>"
+               style="width: 300px;">
+        <?php
+    }
+
+    public static function field_dashboard_widget_message() {
+        $options = get_option('creactive_settings');
+        $val = isset($options['dashboard_widget_message'])
+               ? $options['dashboard_widget_message']
+               : '';
+        ?>
+        <textarea name="creactive_settings[dashboard_widget_message]"
+                  rows="5" 
+                  style="width: 400px;"><?php echo esc_textarea($val); ?></textarea>
+        <?php
     }
 
     // -------------------------------------------
