@@ -53,13 +53,3 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 
 = 2.3.3 = 
 * Ajout de l'option de recherche de variations spécifique manquante.
-
-= 2.3.4 = 
-* Roll-back methode recherche SKU - fonctionnement ok.
-
-= 2.3.5 = 
-* Simplification du tableau de bord. 
-* Suppression redondance toggle activation de la recherche by SKU
-
-= 2.3.6 = 
-* Redirection page de devis lorsque pas de prix.
