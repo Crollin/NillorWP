@@ -1,0 +1,42 @@
+.creactive-admin-wrap h1 {
+    margin-bottom: 20px;
+    color: #0071bc;
+    font-size: 28px;
+}
+
+.form-table {
+    margin: 25px 0;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.form-table th {
+    width: 300px;
+    background: #f7f7f7;
+    border-bottom: 1px solid #eee;
+    padding: 12px 15px;
+    border-radius: 8px 0 0 0;
+}
+
+.form-table td {
+    border-bottom: 1px solid #eee;
+    padding: 12px 15px;
+}
+
+.form-table td label {
+    display: inline-flex;
+    align-items: center;
+}
+
+.wrap .form-table p {
+    margin: 0;
+}
+
+.wrap .button-primary {
+    background: #0071bc;
+    border-color: #0063a7;
+    box-shadow: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
