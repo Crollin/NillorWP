@@ -120,7 +120,7 @@ class MyAccountTabs {
                 echo '<li style="margin-bottom: 10px;">';
     
                 // Affiche le numéro de commande
-                echo '<strong>Commande : ' . esc_html($numero_de_commande) . '</strong><br>';
+                echo 'Commande n° : <strong>' . esc_html($numero_de_commande) . '</strong><br>';
     
                 if ($facture_url) {
                     echo '<a class="button" href="' . esc_url($facture_url) . '" target="_blank">';
