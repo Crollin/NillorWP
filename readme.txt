@@ -5,7 +5,7 @@ Tags: woocommerce, b2bking, sku, personnalisation, my account
 Requires at least: 5.8
 Tested up to: 6.3
 Requires PHP: 7.4
-Stable tag: 2.3
+Stable tag: 2.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,3 +47,6 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 
 = 2.3.2 = 
 * Correction erreur fatale 'recherche par SKU'
+
+= 2.3.3 = 
+* Ajout d'une nouvelle version de recherche by SKU

@@ -1,76 +1,86 @@
 <?php
 namespace CreactiveWeb;
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+if ( ! defined('ABSPATH') ) {
+    exit; // Sécurité
 }
 
 class SkuSearch {
 
     public static function init() {
+        // On se branche sur 'posts_search' avec une priorité élevée (999).
         add_filter('posts_search', [ __CLASS__, 'searchBySku' ], 999, 2);
     }
 
-    public static function searchBySku($search, $query_vars) {
-        error_log('*** searchBySku was called ***');
+    /**
+     * Intercepte la requête de recherche WordPress.
+     * Injecte dans la requête les IDs de produits correspondants au SKU cherché.
+     */
+    public static function searchBySku($search, $wp_query) {
         global $wpdb;
-        $options = get_option('creactive_settings');
 
-        // Vérifier si la recherche par SKU est activée
-        if (!isset($options['enable_sku_search']) || $options['enable_sku_search'] != 1) {
+        // 1) Vérifier s'il y a bien une recherche en cours
+        if ( ! isset($wp_query->query['s']) || empty($wp_query->query['s']) ) {
             return $search;
         }
 
-        // Operator
-        $compare_operator = $options['sku_search_compare_operator'] ?? 'LIKE';
-        $include_variations = isset($options['include_variations_in_sku_search']) && $options['include_variations_in_sku_search'] == 1;
+        // 2) Vérifier si la fonctionnalité SKU Search est activée
+        $options = get_option('creactive_settings');
+        if ( empty($options['enable_feature_sku_search']) ) {
+            return $search;
+        }
 
-        if (isset($query_vars->query['s']) && !empty($query_vars->query['s'])) {
-            // Recherche dans les produits simples
-            $posts = get_posts([
-                'posts_per_page' => -1,
-                'post_type'      => 'product',
-                'meta_query'     => [
-                    [
-                        'key'     => '_sku',
-                        'value'   => $query_vars->query['s'],
-                        'compare' => $compare_operator
-                    ]
+        // 3) Récupérer l’opérateur (LIKE ou =). Par défaut: LIKE
+        $compare_operator = ! empty($options['sku_search_compare_operator']) 
+            ? $options['sku_search_compare_operator'] 
+            : 'LIKE';
+
+        // 4) La valeur tapée par l'utilisateur
+        $search_value = $wp_query->query['s'];
+
+        // 5) Récupérer tous les products + variations dont le _sku matche
+        //    On ne dépend pas de la requête principale, on fait un get_posts
+        $matching_ids = get_posts([
+            'post_type'      => ['product', 'product_variation'],
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+            'meta_query'     => [
+                [
+                    'key'     => '_sku',
+                    'value'   => $search_value,
+                    'compare' => $compare_operator
                 ]
-            ]);
+            ]
+        ]);
 
-            $get_post_ids = [];
-            foreach ($posts as $post) {
-                $get_post_ids[] = $post->ID;
-            }
+        // S’il n’y a **aucun** produit correspondant, on ne modifie pas la requête
+        if ( empty($matching_ids) ) {
+            return $search;
+        }
 
-            // Recherche dans les variations
-            if ($include_variations) {
-                $posts_variation = get_posts([
-                    'posts_per_page' => -1,
-                    'post_type'      => 'product_variation',
-                    'meta_query'     => [
-                        [
-                            'key'     => '_sku',
-                            'value'   => $query_vars->query['s'],
-                            'compare' => $compare_operator
-                        ]
-                    ]
-                ]);
-                foreach ($posts_variation as $post) {
-                    $get_post_ids[] = $post->post_parent;
-                }
-            }
+        // 6) Construction d’un OR ID IN(...) pour injecter nos IDs
+        $ids_string = implode(',', $matching_ids);
 
-            if (empty($get_post_ids)) {
-                return $search;
-            }
+        // Petit log de debug si besoin
+        // error_log('*** searchBySku was called *** IDs found: ' . $ids_string);
 
-            // Injecter nos IDs dans la requête de recherche
+        // 7) Injecter nos IDs dans $search
+        //    - On ESSAIE d’insérer juste après 'AND (((', si on le trouve.
+        //    - Sinon, on ajoute un simple "OR wp_posts.ID IN(...)" en fin de la clause WHERE.
+        if ( strpos($search, 'AND (((') !== false ) {
+            // Cas où la requête contient "AND ((("
+            // On insère un "OR wp_posts.ID IN(...)"
             $search = str_replace(
                 'AND (((',
-                "AND ((({$wpdb->posts}.ID IN (" . implode(',', array_unique($get_post_ids)) . ")) OR (",
+                "AND ((({$wpdb->posts}.ID IN ($ids_string)) OR (",
                 $search
+            );
+        } else {
+            // Si la structure 'AND (((' n’apparaît pas,
+            // on ajoute un OR ... en fin du $search
+            $search .= $wpdb->prepare(
+                " OR {$wpdb->posts}.ID IN ($ids_string)",
+                ''
             );
         }
 

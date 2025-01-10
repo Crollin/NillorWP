@@ -173,9 +173,9 @@ class AdminSettings {
     public static function field_sku_search_compare_operator() {
         $options = get_option('creactive_settings');
         // La valeur par défaut sera “LIKE” si rien n’existe
-        $operator = isset($options['sku_search_compare_operator']) 
-                    ? $options['sku_search_compare_operator'] 
-                    : 'LIKE';
+        $compare_operator = ! empty($options['sku_search_compare_operator'])
+                        ? $options['sku_search_compare_operator']
+                        : 'LIKE';
         ?>
         <select name="creactive_settings[sku_search_compare_operator]">
             <option value="LIKE" <?php selected($operator, 'LIKE'); ?>>

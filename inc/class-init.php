@@ -11,7 +11,7 @@ class Init {
         $options = get_option('creactive_settings');
 
         // SKU Search
-        if (!empty($options['enable_feature_sku_search'])) {
+        if (! empty($options['enable_feature_sku_search'])) {
             SkuSearch::init();
         }
         // B2BKing PDF
