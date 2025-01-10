@@ -57,18 +57,28 @@ class MyAccountTabs {
     }
 
     public static function contenuTarifs() {
-        $user_id = get_current_user_id();
-        // ex. ACF get_field
+        $user_id   = get_current_user_id();
         $tarif_url = get_field('tarifs_preferentiels', 'user_'.$user_id);
-
+    
         echo '<h3>Mes Tarifs Préférentiels</h3>';
+    
         if ($tarif_url) {
-            echo '<p>Vous pouvez télécharger vos tarifs ici :</p>';
-            echo '<a class="button" href="' . esc_url($tarif_url) . '">Télécharger</a>';
+            // On propose une visionneuse PDF intégrée
+            echo '<p>Visualisez ou téléchargez vos tarifs préférentiels ci-dessous :</p>';
+    
+            // 1) Bloc conteneur avec style de taille
+            echo '<div style="border: 1px solid #ccc; width: 100%; max-width: 800px; height: 700px; margin-bottom: 20px;">';
+            echo '  <embed src="' . esc_url($tarif_url) . '" type="application/pdf" width="100%" height="100%" />';
+            echo '</div>';
+    
+            // 2) Bouton de téléchargement
+            echo '<a class="button" href="' . esc_url($tarif_url) . '" download="tarifs.pdf" style="text-decoration: none;">';
+            echo 'Télécharger les tarifs';
+            echo '</a>';
         } else {
             echo '<p>Aucun tarif n’est disponible.</p>';
         }
-    }
+    }    
 
     public static function contenuDevis() {
         $options = get_option('creactive_settings');
