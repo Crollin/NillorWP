@@ -147,6 +147,27 @@ class AdminSettings {
     }
 
     // -----------------------------------------------------
+    // Section "Recherche SKU"
+    // -----------------------------------------------------
+    add_settings_section(
+        'sku_search_section',
+        'Paramètres de la Recherche SKU',
+        function() {
+            echo '<p>Réglages pour la recherche par SKU.</p>';
+        },
+        'creactive-settings'
+    );
+
+    // Champ “Opérateur”
+    add_settings_field(
+        'sku_search_compare_operator',
+        'Opérateur de comparaison',
+        [__CLASS__, 'field_sku_search_compare_operator'],
+        'creactive-settings',
+        'sku_search_section'
+    );
+
+    // -----------------------------------------------------
     // Champs "Infos Mon compte"
     // -----------------------------------------------------
     public static function field_client_info_title() {

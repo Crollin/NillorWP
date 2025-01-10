@@ -41,3 +41,6 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 
 = 2.3 = 
 * Changement de fonctionnement pour la recherche SKU
+
+= 2.3.1 = 
+* Ajout du selecteur logique de recherche SKU sur le back-office.
