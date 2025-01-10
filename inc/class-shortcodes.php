@@ -1,12 +1,11 @@
 <?php
 namespace CreactiveWeb;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( ! defined('ABSPATH') ) {
     exit;
 }
 
 class Shortcodes {
-
     public static function init() {
         add_shortcode('connected_user', [ __CLASS__, 'shortcode_connected_user' ]);
         add_shortcode('guest_user', [ __CLASS__, 'shortcode_guest_user' ]);
@@ -15,30 +14,15 @@ class Shortcodes {
     }
 
     public static function shortcode_connected_user($atts, $content = null) {
-        if (is_user_logged_in()) {
-            return $content;
-        }
-        return '';
+        return is_user_logged_in() ? $content : '';
     }
-
     public static function shortcode_guest_user($atts, $content = null) {
-        if (!is_user_logged_in()) {
-            return $content;
-        }
-        return '';
+        return !is_user_logged_in() ? $content : '';
     }
-
     public static function shortcode_is_logged_in($atts, $content = null) {
-        if (is_user_logged_in()) {
-            return do_shortcode($content);
-        }
-        return '';
+        return is_user_logged_in() ? do_shortcode($content) : '';
     }
-
     public static function shortcode_is_not_logged_in($atts, $content = null) {
-        if (!is_user_logged_in()) {
-            return do_shortcode($content);
-        }
-        return '';
+        return !is_user_logged_in() ? do_shortcode($content) : '';
     }
 }

@@ -30,3 +30,7 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 = 2.0 =
 * Réorganisation des fichiers en classes.
 * Ajout d'une page de paramètres.
+
+= 2.1 =
+* Ajout de toggles pour chaque fonctionnalité
+* Ajout de styles custom pour la page de réglages

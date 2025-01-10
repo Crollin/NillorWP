@@ -11,9 +11,8 @@ class AdminSettings {
         add_action('admin_menu', [ __CLASS__, 'addMenuPage' ]);
         add_action('admin_init', [ __CLASS__, 'initSettings' ]);
 
-        // Pour le color picker et la media library
+        // Pour styliser la page (CSS) & color picker
         add_action('admin_enqueue_scripts', [ __CLASS__, 'adminScripts' ]);
-        add_action('admin_head', [ __CLASS__, 'inlineStyles' ]);
     }
 
     public static function addMenuPage() {
@@ -29,64 +28,124 @@ class AdminSettings {
     }
 
     public static function initSettings() {
-        // On enregistre l’option principale
+        // On enregistre l'option principale
         register_setting('creactive_settings_group', 'creactive_settings');
 
-        // Exemple de section pour le SKU search
+        // --- SECTION "FEATURE TOGGLES" --- //
         add_settings_section(
-            'sku_search_section',
-            'Paramètres de la Recherche par SKU',
-            null,
+            'feature_toggles_section',
+            'Activation / Désactivation des Fonctionnalités',
+            function() {
+                echo '<p>Cochez les fonctionnalités que vous souhaitez activer.</p>';
+            },
             'creactive-settings'
         );
 
+        // 1. SKU Search
         add_settings_field(
-            'enable_sku_search',
-            'Activer la recherche par SKU',
-            [ __CLASS__, 'field_enable_sku_search' ],
+            'enable_feature_sku_search',
+            'Recherche par SKU',
+            [ __CLASS__, 'field_enable_feature_sku_search' ],
             'creactive-settings',
-            'sku_search_section'
+            'feature_toggles_section'
         );
 
+        // 2. B2BKing PDF
+        add_settings_field(
+            'enable_feature_b2bking_pdf',
+            'Personnalisation PDF B2BKing',
+            [ __CLASS__, 'field_enable_feature_b2bking_pdf' ],
+            'creactive-settings',
+            'feature_toggles_section'
+        );
+
+        // 3. Variation Price
+        add_settings_field(
+            'enable_feature_variation_price',
+            'Personnalisation du prix variable',
+            [ __CLASS__, 'field_enable_feature_variation_price' ],
+            'creactive-settings',
+            'feature_toggles_section'
+        );
+
+        // 4. “Nous Consulter”
+        add_settings_field(
+            'enable_feature_nous_consulter',
+            'Lien "Nous consulter" si prix 0.01',
+            [ __CLASS__, 'field_enable_feature_nous_consulter' ],
+            'creactive-settings',
+            'feature_toggles_section'
+        );
+
+        // 5. Shortcodes connexion
+        add_settings_field(
+            'enable_feature_shortcodes',
+            'Shortcodes (is_logged_in, etc.)',
+            [ __CLASS__, 'field_enable_feature_shortcodes' ],
+            'creactive-settings',
+            'feature_toggles_section'
+        );
+
+        // 6. Dashboard widget
+        add_settings_field(
+            'enable_feature_dashboard_widget',
+            'Widget Tableau de bord personnalisé',
+            [ __CLASS__, 'field_enable_feature_dashboard_widget' ],
+            'creactive-settings',
+            'feature_toggles_section'
+        );
+
+        // 7. MyAccount Info
+        add_settings_field(
+            'enable_feature_myaccount_info',
+            'Infos client sur "Mon compte"',
+            [ __CLASS__, 'field_enable_feature_myaccount_info' ],
+            'creactive-settings',
+            'feature_toggles_section'
+        );
+
+        // 8. MyAccount Tabs
+        add_settings_field(
+            'enable_feature_myaccount_tabs',
+            'Onglets personnalisés "Mon compte"',
+            [ __CLASS__, 'field_enable_feature_myaccount_tabs' ],
+            'creactive-settings',
+            'feature_toggles_section'
+        );
+
+        // 9. Custom Admin user-edit
+        add_settings_field(
+            'enable_feature_custom_admin',
+            'Personnalisation user-edit back-office',
+            [ __CLASS__, 'field_enable_feature_custom_admin' ],
+            'creactive-settings',
+            'feature_toggles_section'
+        );
+
+        // --------------------------------------------------------------------------------
+        // Exemples de champs de configuration supplémentaires pour la recherche SKU :
+        // --------------------------------------------------------------------------------
+        add_settings_section(
+            'sku_search_section',
+            'Paramètres de la Recherche SKU',
+            null,
+            'creactive-settings'
+        );
         add_settings_field(
             'sku_search_compare_operator',
-            'Opérateur de comparaison SKU',
+            'Opérateur de comparaison',
             [ __CLASS__, 'field_sku_search_compare_operator' ],
             'creactive-settings',
             'sku_search_section'
         );
 
-        add_settings_field(
-            'include_variations_in_sku_search',
-            'Inclure les variations dans la recherche par SKU',
-            [ __CLASS__, 'field_include_variations_in_sku_search' ],
-            'creactive-settings',
-            'sku_search_section'
-        );
-
-        // Ajoute ici tes autres sections et champs (b2bking_pdf_section, client_info_section, etc.)
-        // -- Voir le code d’origine pour plus de détails
-
-        // B2BKing PDF
-        add_settings_section('b2bking_pdf_section', 'Personnalisation du PDF B2BKing', null, 'creactive-settings');
-        add_settings_field(
-            'b2bking_pdf_custom_text',
-            'Texte personnalisé pour le PDF',
-            [ __CLASS__, 'field_b2bking_pdf_custom_text' ],
-            'creactive-settings',
-            'b2bking_pdf_section'
-        );
-
-        // ... (idem pour toutes les autres sections mentionnées dans le code original)
-
+        // etc. Si tu veux personnaliser d'autres fonctionnalités...
     }
 
-    // --------------------------------------------------------------------------------
-    // Render de la page de paramètres
-    // --------------------------------------------------------------------------------
+    // --- Affichage de la page ---
     public static function renderSettingsPage() {
         ?>
-        <div class="wrap">
+        <div class="wrap creactive-admin-wrap">
             <h1>Creactive - Paramètres Personnalisés</h1>
             <form method="post" action="options.php">
                 <?php
@@ -99,21 +158,49 @@ class AdminSettings {
         <?php
     }
 
-    // --------------------------------------------------------------------------------
-    // Field callbacks
-    // --------------------------------------------------------------------------------
+    // --- Callbacks pour les champs "feature toggles" ---
+    public static function field_enable_feature_sku_search() {
+        self::renderCheckbox('enable_feature_sku_search');
+    }
+    public static function field_enable_feature_b2bking_pdf() {
+        self::renderCheckbox('enable_feature_b2bking_pdf');
+    }
+    public static function field_enable_feature_variation_price() {
+        self::renderCheckbox('enable_feature_variation_price');
+    }
+    public static function field_enable_feature_nous_consulter() {
+        self::renderCheckbox('enable_feature_nous_consulter');
+    }
+    public static function field_enable_feature_shortcodes() {
+        self::renderCheckbox('enable_feature_shortcodes');
+    }
+    public static function field_enable_feature_dashboard_widget() {
+        self::renderCheckbox('enable_feature_dashboard_widget');
+    }
+    public static function field_enable_feature_myaccount_info() {
+        self::renderCheckbox('enable_feature_myaccount_info');
+    }
+    public static function field_enable_feature_myaccount_tabs() {
+        self::renderCheckbox('enable_feature_myaccount_tabs');
+    }
+    public static function field_enable_feature_custom_admin() {
+        self::renderCheckbox('enable_feature_custom_admin');
+    }
 
-    public static function field_enable_sku_search() {
+    // Petite fonction helper pour éviter de répéter le code
+    private static function renderCheckbox($option_name) {
         $options = get_option('creactive_settings');
+        $checked = !empty($options[$option_name]) && $options[$option_name] == '1';
         ?>
-        <label for="enable_sku_search">
-            <input type="checkbox" name="creactive_settings[enable_sku_search]" value="1"
-                <?php checked(isset($options['enable_sku_search']) && $options['enable_sku_search'] == 1); ?>>
-            Activer la recherche par SKU
+        <label>
+            <input type="checkbox" name="creactive_settings[<?php echo esc_attr($option_name); ?>]"
+                   value="1" <?php checked($checked); ?>>
+            Activer
         </label>
         <?php
     }
 
+    // --- Exemples de champs config pour la Recherche SKU ---
     public static function field_sku_search_compare_operator() {
         $options = get_option('creactive_settings');
         $operator = $options['sku_search_compare_operator'] ?? 'LIKE';
@@ -125,61 +212,22 @@ class AdminSettings {
         <?php
     }
 
-    public static function field_include_variations_in_sku_search() {
-        $options = get_option('creactive_settings');
-        ?>
-        <label for="include_variations_in_sku_search">
-            <input type="checkbox" name="creactive_settings[include_variations_in_sku_search]" value="1"
-                <?php checked(isset($options['include_variations_in_sku_search']) && $options['include_variations_in_sku_search'] == 1); ?>>
-            Inclure les variations
-        </label>
-        <?php
-    }
-
-    // --------------------------------------------------------------------------------
-    // B2BKing PDF
-    // --------------------------------------------------------------------------------
-    public static function field_b2bking_pdf_custom_text() {
-        $options = get_option('creactive_settings');
-        ?>
-        <textarea name="creactive_settings[b2bking_pdf_custom_text]" rows="5" cols="50"><?php 
-            echo esc_textarea($options['b2bking_pdf_custom_text'] ?? ''); 
-        ?></textarea>
-        <?php
-    }
-
-    // --------------------------------------------------------------------------------
-    // Ajoute tous les autres champs de configuration dont tu as besoin, 
-    // en t'inspirant du code original fourni.
-    // --------------------------------------------------------------------------------
-
-    // --------------------------------------------------------------------------------
-    // Scripts & Styles
-    // --------------------------------------------------------------------------------
+    // --- Scripts & Styles ---
     public static function adminScripts($hook) {
-        // On charge le color picker et la media library seulement sur la page creactive-settings
         if ($hook !== 'toplevel_page_creactive-settings') {
             return;
         }
-        wp_enqueue_media();
+        // Exemple : color picker
         wp_enqueue_style('wp-color-picker');
         wp_enqueue_script('wp-color-picker');
+
+        // Ton CSS perso
+        wp_enqueue_style(
+            'creactive_admin_css',
+            CREACTIVEWEB_PLUGIN_URL . 'inc/admin-style.css',
+            [],
+            CREACTIVEWEB_VERSION
+        );
     }
 
-    public static function inlineStyles() {
-        $screen = get_current_screen();
-        if ($screen->id != 'toplevel_page_creactive-settings') {
-            return;
-        }
-        echo '<style>
-        .form-table th {
-            width: 220px;
-        }
-        h2 {
-            margin-top: 30px;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 10px;
-        }
-        </style>';
-    }
 }
