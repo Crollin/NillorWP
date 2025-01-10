@@ -27,7 +27,7 @@ define( 'CREACTIVEWEB_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 // 2. Inclusion des fichiers de classes
 // -----------------------------------------------------------------------------
 require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-activator.php';
-require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-deactivator.php';
+require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-desactivator.php';
 require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-admin-settings.php';
 require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-sku-search.php';
 require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-b2bking-pdf-custom.php';
