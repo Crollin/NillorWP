@@ -63,6 +63,3 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 
 = 2.3.6 = 
 * Redirection page de devis lorsque pas de prix.
-
-= 2.4 = 
-* Ajout de la personnalisation du widget de tableau de bord.
