@@ -45,8 +45,29 @@ class AdminSettings {
         self::addFeatureField('enable_feature_myaccount_info',     'Infos client sur "Mon compte"');
         self::addFeatureField('enable_feature_myaccount_tabs',     'Onglets personnalisés "Mon compte"');
         self::addFeatureField('enable_feature_custom_admin',       'Personnalisation user-edit back-office');
+        
+        
+        // --- SECTION 2 : Personnalisation “Recherche SKU” ---
+        add_settings_section(
+            'sku_search_section',
+            'Paramètres de la Recherche SKU',
+            function() {
+                echo '<p>Réglages pour la recherche par SKU.</p>';
+            },
+            'creactive-settings'
+        );
+    
+        // Champ “Opérateur”
+        add_settings_field(
+            'sku_search_compare_operator',
+            'Opérateur de comparaison',
+            [__CLASS__, 'field_sku_search_compare_operator'],
+            'creactive-settings',
+            'sku_search_section'
+        );
+    
 
-        // --- SECTION 2 : Personnalisation “Infos Mon compte” ---
+        // --- SECTION 3 : Personnalisation “Infos Mon compte” ---
         add_settings_section(
             'myaccount_info_section',
             'Paramètres "Infos Mon Compte"',
@@ -71,7 +92,7 @@ class AdminSettings {
             'myaccount_info_section'
         );
 
-        // --- SECTION 3 : Personnalisation “Onglets Mon compte” ---
+        // --- SECTION 4 : Personnalisation “Onglets Mon compte” ---
         add_settings_section(
             'myaccount_tabs_section',
             'Paramètres "Onglets Mon Compte"',
@@ -149,23 +170,23 @@ class AdminSettings {
     // -----------------------------------------------------
     // Section "Recherche SKU"
     // -----------------------------------------------------
-    add_settings_section(
-        'sku_search_section',
-        'Paramètres de la Recherche SKU',
-        function() {
-            echo '<p>Réglages pour la recherche par SKU.</p>';
-        },
-        'creactive-settings'
-    );
-
-    // Champ “Opérateur”
-    add_settings_field(
-        'sku_search_compare_operator',
-        'Opérateur de comparaison',
-        [__CLASS__, 'field_sku_search_compare_operator'],
-        'creactive-settings',
-        'sku_search_section'
-    );
+    public static function field_sku_search_compare_operator() {
+        $options = get_option('creactive_settings');
+        // La valeur par défaut sera “LIKE” si rien n’existe
+        $operator = isset($options['sku_search_compare_operator']) 
+                    ? $options['sku_search_compare_operator'] 
+                    : 'LIKE';
+        ?>
+        <select name="creactive_settings[sku_search_compare_operator]">
+            <option value="LIKE" <?php selected($operator, 'LIKE'); ?>>
+                Contient (LIKE)
+            </option>
+            <option value="=" <?php selected($operator, '='); ?>>
+                Égal (exact)
+            </option>
+        </select>
+        <?php
+    }
 
     // -----------------------------------------------------
     // Champs "Infos Mon compte"
