@@ -14,7 +14,7 @@ class NousConsulter {
         if ( (float) $product->get_price() === 0.01 ) {
             $options = get_option('creactive_settings');
             $text = $options['nous_consulter_text'] ?? 'Nous consulter';
-            $url  = $options['nous_consulter_url']  ?? '#';
+            $url  = $options['nous_consulter_url']  ?? 'https://nillor.eu/mon-compte/mes-demandes-de-devis/';
             return '<a href="' . esc_url($url) . '" class="price-nous-consulter">' . esc_html($text) . '</a>';
         }
         return $price;

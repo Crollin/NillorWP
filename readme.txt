@@ -58,4 +58,8 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 * Roll-back methode recherche SKU - fonctionnement ok.
 
 = 2.3.5 = 
-* Simplification tableau de bord
+* Simplification du tableau de bord. 
+* Suppression redondance toggle activation de la recherche by SKU
+
+= 2.3.6 = 
+* Redirection page de devis lorsque pas de prix.
