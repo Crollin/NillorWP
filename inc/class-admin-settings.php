@@ -50,21 +50,40 @@ class AdminSettings {
         // --- SECTION 2 : Personnalisation “Recherche SKU” ---
         add_settings_section(
             'sku_search_section',
-            'Paramètres de la Recherche SKU',
+            'Paramètres de la Recherche par SKU',
             function() {
-                echo '<p>Réglages pour la recherche par SKU.</p>';
+                echo '<p>Configurez le comportement de la recherche par SKU.</p>';
             },
             'creactive-settings'
         );
-    
-        // Champ “Opérateur”
+
+        // a) Activer la recherche par SKU
+        add_settings_field(
+            'enable_sku_search',
+            'Activer la recherche par SKU',
+            [__CLASS__, 'field_enable_sku_search'],
+            'creactive-settings',
+            'sku_search_section'
+        );
+
+        // b) Opérateur de comparaison
         add_settings_field(
             'sku_search_compare_operator',
-            'Opérateur de comparaison',
+            'Opérateur de comparaison SKU',
             [__CLASS__, 'field_sku_search_compare_operator'],
             'creactive-settings',
             'sku_search_section'
         );
+
+        // c) Inclure les variations
+        add_settings_field(
+            'include_variations_in_sku_search',
+            'Inclure les variations dans la recherche par SKU',
+            [__CLASS__, 'field_include_variations_in_sku_search'],
+            'creactive-settings',
+            'sku_search_section'
+        );
+    }
     
 
         // --- SECTION 3 : Personnalisation “Infos Mon compte” ---
@@ -170,21 +189,42 @@ class AdminSettings {
     // -----------------------------------------------------
     // Section "Recherche SKU"
     // -----------------------------------------------------
+    public static function field_enable_sku_search() {
+        $options = get_option('creactive_settings');
+        ?>
+        <label>
+            <input type="checkbox" name="creactive_settings[enable_sku_search]"
+                   value="1" <?php checked(!empty($options['enable_sku_search'])); ?>>
+            Activer la recherche par SKU
+        </label>
+        <?php
+    }
+
     public static function field_sku_search_compare_operator() {
         $options = get_option('creactive_settings');
-        // La valeur par défaut sera “LIKE” si rien n’existe
-        $compare_operator = ! empty($options['sku_search_compare_operator'])
-                        ? $options['sku_search_compare_operator']
-                        : 'LIKE';
+        $operator = isset($options['sku_search_compare_operator']) 
+                    ? $options['sku_search_compare_operator'] 
+                    : 'LIKE';
         ?>
         <select name="creactive_settings[sku_search_compare_operator]">
             <option value="LIKE" <?php selected($operator, 'LIKE'); ?>>
                 Contient (LIKE)
             </option>
             <option value="=" <?php selected($operator, '='); ?>>
-                Égal (exact)
+                Exact (=)
             </option>
         </select>
+        <?php
+    }
+
+    public static function field_include_variations_in_sku_search() {
+        $options = get_option('creactive_settings');
+        ?>
+        <label>
+            <input type="checkbox" name="creactive_settings[include_variations_in_sku_search]"
+                   value="1" <?php checked(!empty($options['include_variations_in_sku_search'])); ?>>
+            Inclure les variations
+        </label>
         <?php
     }
 
@@ -231,9 +271,9 @@ class AdminSettings {
         echo '<input type="number" name="creactive_settings[my_account_tab_2_form_id]" value="'.esc_attr($val).'" style="width: 100px;">';
     }
 
-    // -----------------------------------------------------
-    // Affichage de la page de réglages
-    // -----------------------------------------------------
+    // -------------------------------------------
+    //  Page d’options (mise en page)
+    // -------------------------------------------
     public static function renderSettingsPage() {
         ?>
         <div class="wrap creactive-admin-wrap">
@@ -249,20 +289,18 @@ class AdminSettings {
         <?php
     }
 
-    // -----------------------------------------------------
-    // Enqueue scripts/style
-    // -----------------------------------------------------
+    // -------------------------------------------
+    //  Scripts/CSS
+    // -------------------------------------------
     public static function adminScripts($hook) {
         if ($hook !== 'toplevel_page_creactive-settings') {
             return;
         }
-        // Ton CSS
         wp_enqueue_style(
             'creactive_admin_style', 
             CREACTIVEWEB_PLUGIN_URL . 'inc/style-admin.css',
             [],
-            '2.2'
+            '1.0'
         );
     }
-
 }

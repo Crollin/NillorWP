@@ -2,82 +2,79 @@
 namespace CreactiveWeb;
 
 if ( ! defined('ABSPATH') ) {
-    exit; // Sécurité
+    exit;
 }
 
 class SkuSearch {
 
     public static function init() {
-        // On se branche sur 'posts_search' avec une priorité élevée (999).
         add_filter('posts_search', [ __CLASS__, 'searchBySku' ], 999, 2);
     }
 
-    /**
-     * Intercepte la requête de recherche WordPress.
-     * Injecte dans la requête les IDs de produits correspondants au SKU cherché.
-     */
-    public static function searchBySku($search, $wp_query) {
+    public static function searchBySku($search, $query_vars) {
         global $wpdb;
 
-        // 1) Vérifier s'il y a bien une recherche en cours
-        if ( ! isset($wp_query->query['s']) || empty($wp_query->query['s']) ) {
-            return $search;
-        }
-
-        // 2) Vérifier si la fonctionnalité SKU Search est activée
+        // 1) Récupération des options
         $options = get_option('creactive_settings');
-        if ( empty($options['enable_feature_sku_search']) ) {
+        if ( empty($options['enable_sku_search']) ) {
+            // Si la recherche par SKU n'est pas cochée, on sort
             return $search;
         }
 
-        // 3) Récupérer l’opérateur (LIKE ou =). Par défaut: LIKE
-        $compare_operator = ! empty($options['sku_search_compare_operator']) 
-            ? $options['sku_search_compare_operator'] 
-            : 'LIKE';
+        // 2) Vérifier qu'on est bien en train de faire une recherche (paramètre 's')
+        if ( ! isset($query_vars->query['s']) || empty($query_vars->query['s']) ) {
+            return $search;
+        }
+        $search_term = $query_vars->query['s'];
 
-        // 4) La valeur tapée par l'utilisateur
-        $search_value = $wp_query->query['s'];
+        // 3) Déterminer l'opérateur (LIKE ou =)
+        $compare_operator = ! empty($options['sku_search_compare_operator'])
+            ? $options['sku_search_compare_operator']
+            : 'LIKE';  // par défaut
 
-        // 5) Récupérer tous les products + variations dont le _sku matche
-        //    On ne dépend pas de la requête principale, on fait un get_posts
-        $matching_ids = get_posts([
-            'post_type'      => ['product', 'product_variation'],
+        // 4) Vérifier si on inclut les variations
+        $include_variations = ! empty($options['include_variations_in_sku_search']);
+
+        // 5) Construire la requête get_posts pour trouver les IDs qui matchent
+        $post_types = ['product'];
+        if ($include_variations) {
+            $post_types[] = 'product_variation';
+        }
+
+        $args = [
+            'post_type'      => $post_types,
             'posts_per_page' => -1,
             'fields'         => 'ids',
             'meta_query'     => [
                 [
                     'key'     => '_sku',
-                    'value'   => $search_value,
+                    'value'   => $search_term,
                     'compare' => $compare_operator
                 ]
             ]
-        ]);
+        ];
+        $found_posts = get_posts($args);
 
-        // S’il n’y a **aucun** produit correspondant, on ne modifie pas la requête
-        if ( empty($matching_ids) ) {
+        if ( empty($found_posts) ) {
+            // Si aucun produit (ou variation) ne correspond au SKU cherché,
+            // on ne modifie pas la requête (la recherche habituelle s’applique).
             return $search;
         }
 
-        // 6) Construction d’un OR ID IN(...) pour injecter nos IDs
-        $ids_string = implode(',', $matching_ids);
+        // Convertir en string
+        $ids_string = implode(',', $found_posts);
 
-        // Petit log de debug si besoin
-        // error_log('*** searchBySku was called *** IDs found: ' . $ids_string);
-
-        // 7) Injecter nos IDs dans $search
-        //    - On ESSAIE d’insérer juste après 'AND (((', si on le trouve.
-        //    - Sinon, on ajoute un simple "OR wp_posts.ID IN(...)" en fin de la clause WHERE.
+        // 6) Injecter un OR {wpdb->posts}.ID IN(...) dans la requête
+        // On cherche si "AND (((" est présent. Sinon on concatène un OR à la fin.
         if ( strpos($search, 'AND (((') !== false ) {
-            // Cas où la requête contient "AND ((("
-            // On insère un "OR wp_posts.ID IN(...)"
+            // On injecte dans la parenthèse
             $search = str_replace(
                 'AND (((',
                 "AND ((({$wpdb->posts}.ID IN ($ids_string)) OR (",
                 $search
             );
         } else {
-            // Si la structure 'AND (((' n’apparaît pas,
-            // on ajoute un OR ... en fin du $search
+            // Fallback : on ajoute un OR en fin
             $search .= $wpdb->prepare(
                 " OR {$wpdb->posts}.ID IN ($ids_string)",
                 ''
@@ -86,4 +83,5 @@ class SkuSearch {
 
         return $search;
     }
+
 }

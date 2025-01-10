@@ -50,3 +50,6 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 
 = 2.3.3 = 
 * Ajout d'une nouvelle version de recherche by SKU
+
+= 2.3.3 = 
+* Ajout de l'option de recherche de variations spécifique manquante.
