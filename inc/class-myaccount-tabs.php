@@ -30,7 +30,7 @@ class MyAccountTabs {
 
         $nouveaux = [
             $tab1_slug => $tab1_label,
-            $tab2_slug => $tab2_label
+            $tab2_slug => $tab2_label,
             $tab3_slug => $tab3_label
         ];
 
