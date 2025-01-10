@@ -12,6 +12,7 @@ class SkuSearch {
     }
 
     public static function searchBySku($search, $query_vars) {
+        error_log('*** searchBySku was called ***');
         global $wpdb;
         $options = get_option('creactive_settings');
 
