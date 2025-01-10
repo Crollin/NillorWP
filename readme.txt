@@ -53,3 +53,9 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 
 = 2.3.3 = 
 * Ajout de l'option de recherche de variations spécifique manquante.
+
+= 2.3.4 = 
+* Roll-back methode recherche SKU - fonctionnement ok.
+
+= 2.3.5 = 
+* Simplification tableau de bord

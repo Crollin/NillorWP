@@ -57,16 +57,7 @@ class AdminSettings {
             'creactive-settings'
         );
 
-        // a) Activer la recherche par SKU
-        add_settings_field(
-            'enable_sku_search',
-            'Activer la recherche par SKU',
-            [__CLASS__, 'field_enable_sku_search'],
-            'creactive-settings',
-            'sku_search_section'
-        );
-
-        // b) Opérateur de comparaison
+        // a) Opérateur de comparaison
         add_settings_field(
             'sku_search_compare_operator',
             'Opérateur de comparaison SKU',
@@ -75,7 +66,7 @@ class AdminSettings {
             'sku_search_section'
         );
 
-        // c) Inclure les variations
+        // b) Inclure les variations
         add_settings_field(
             'include_variations_in_sku_search',
             'Inclure les variations dans la recherche par SKU',
