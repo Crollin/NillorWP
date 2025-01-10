@@ -123,7 +123,7 @@ class MyAccountTabs {
     
             // Petite icône PDF (exemple), stockée quelque part dans le plugin ou en ligne
             // Tu peux la remplacer par l’URL de ton image ou icône
-            $pdf_icon_url = CREACTIVEWEB_PLUGIN_URL . 'inc/pdf-icon.png'; 
+            $pdf_icon_url = CREACTIVEWEB_PLUGIN_URL . 'inc/img/pdf-icon.png'; 
             // (à toi de mettre l'image "pdf-icon.png" dans ton dossier inc/)
     
             echo '<table class="mes-factures-table">';
