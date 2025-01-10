@@ -1,0 +1,28 @@
+/* Masquer les colonnes "Quantité" et "Ajouter au panier" pour les utilisateurs non connectés */
+body:not(.logged-in) .pvt-table .pvt-quantity,
+body:not(.logged-in) .pvt-table .pvt-add-to-cart {
+    display: none !important;
+}
+
+/* Ajouter des styles spécifiques pour personnaliser l’apparence */
+.pvt-table th {
+    background-color: #f5f5f5;
+    text-align: left;
+}
+
+.pvt-table td {
+    padding: 8px 10px;
+}
+
+/* Exemple : rendre le bouton "Ajouter au panier" plus visible */
+.pvt-add-to-cart button {
+    background-color: #27456E;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+.pvt-add-to-cart button:hover {
+    background-color: #ED6F6A;
+}

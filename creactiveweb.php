@@ -3,7 +3,7 @@
  * Plugin Name: Creactiveweb
  * Plugin URI: https://creactiveweb.com
  * Description: Plugin personnalisé pour Nillor - Recherche SKU, Personnalisation B2BKing, Onglets "Mon compte", etc.
- * Version: 2.3.8
+ * Version: 2.3.9
  * Author: Creactive
  * Author URI: https://creactiveweb.com
  * License: GPL2
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // -----------------------------------------------------------------------------
 // 1. Définition des constantes principales du plugin
 // -----------------------------------------------------------------------------
-define( 'CREACTIVEWEB_VERSION', '2.3.8' );
+define( 'CREACTIVEWEB_VERSION', '2.3.9' );
 define( 'CREACTIVEWEB_PLUGIN_FILE', __FILE__ );
 define( 'CREACTIVEWEB_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'CREACTIVEWEB_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -40,6 +40,7 @@ require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-custom-admin-user-edit.php';
 require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-dashboard-widget.php';
 require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-renamer.php';
 require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-init.php';
+require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-pvt-customization.php';
 
 // -----------------------------------------------------------------------------
 // 3. Hooks d’activation et de désactivation

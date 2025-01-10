@@ -49,7 +49,8 @@ class AdminSettings {
         self::addFeatureField('enable_feature_myaccount_info',     'Infos client sur "Mon compte"');
         self::addFeatureField('enable_feature_myaccount_tabs',     'Onglets personnalisés "Mon compte"');
         self::addFeatureField('enable_feature_custom_admin',       'Personnalisation user-edit back-office');
-        
+        self::addFeatureField('enable_feature_pvt',                'Personnalisation pvt back-office');
+
         
         // --- SECTION 2 : Personnalisation “Recherche SKU” ---
         add_settings_section(
@@ -316,7 +317,7 @@ class AdminSettings {
         }
         wp_enqueue_style(
             'creactive_admin_style', 
-            CREACTIVEWEB_PLUGIN_URL . 'inc/style-admin.css',
+            CREACTIVEWEB_PLUGIN_URL . 'inc/css/style-admin.css',
             [],
             '1.0'
         );

@@ -5,7 +5,7 @@ Tags: woocommerce, b2bking, sku, personnalisation, my account
 Requires at least: 5.8
 Tested up to: 6.3
 Requires PHP: 7.4
-Stable tag: 2.3.7
+Stable tag: 2.3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,3 +73,8 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 * Récupération des factures via une boucle 
 * Ajout de la modification du titre de l'onglet 'Mes factures' depuis le back-office
 * Personnalisationd de la présentation des factures client sous forme de tableau avec bouton de téléchargement et mignature PDF
+* Ajout d'une visionneuse PDF directement sur l'onglet Mes tarifs
+
+= 2.3.9 =
+* desactivation de bouton d'ajout au panier et du selecteur de quantité quand l'utilisateur n'est pas connecté
+* Traduction des en-tête de colonne de PVY (product variation table)
