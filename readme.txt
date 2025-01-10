@@ -5,7 +5,7 @@ Tags: woocommerce, b2bking, sku, personnalisation, my account
 Requires at least: 5.8
 Tested up to: 6.3
 Requires PHP: 7.4
-Stable tag: 2.3.3
+Stable tag: 2.3.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,3 +63,7 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 
 = 2.3.6 = 
 * Redirection page de devis lorsque pas de prix.
+
+= 2.3.7 = 
+* AJout des factures clients depuis le back-office.
+* Affichages des factures clients sur la page compte du client.

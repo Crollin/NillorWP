@@ -12,9 +12,11 @@ class MyAccountTabs {
         $options = get_option('creactive_settings');
         $tab1 = $options['my_account_tab_1_slug'] ?? 'mes-tarifs';
         $tab2 = $options['my_account_tab_2_slug'] ?? 'mes-demandes-de-devis';
+        $tab2 = $options['my_account_tab_3_slug'] ?? 'mes-factures';
 
         add_action("woocommerce_account_{$tab1}_endpoint", [ __CLASS__, 'contenuTarifs' ]);
         add_action("woocommerce_account_{$tab2}_endpoint", [ __CLASS__, 'contenuDevis' ]);
+        add_action("woocommerce_account_{$tab2}_endpoint", [ __CLASS__, 'contenuFactures' ]);
     }
 
     public static function ajouterMenuMonCompte($items) {
@@ -23,10 +25,13 @@ class MyAccountTabs {
         $tab1_label = $options['my_account_tab_1_label'] ?? 'Mes Tarifs';
         $tab2_slug  = $options['my_account_tab_2_slug']  ?? 'mes-demandes-de-devis';
         $tab2_label = $options['my_account_tab_2_label'] ?? 'Demande de devis';
+        $tab3_slug  = $options['my_account_tab_3_slug']  ?? 'mes-factures';
+        $tab3_label = $options['my_account_tab_3_label'] ?? 'Mes Factures';
 
         $nouveaux = [
             $tab1_slug => $tab1_label,
             $tab2_slug => $tab2_label
+            $tab3_slug => $tab3_label
         ];
 
         // Insérer juste après "Dashboard"
@@ -44,9 +49,11 @@ class MyAccountTabs {
         $options = get_option('creactive_settings');
         $tab1_slug = $options['my_account_tab_1_slug'] ?? 'mes-tarifs';
         $tab2_slug = $options['my_account_tab_2_slug'] ?? 'mes-demandes-de-devis';
+        $tab3_slug = $options['my_account_tab_3_slug'] ?? 'mes-factures';
 
         add_rewrite_endpoint($tab1_slug, EP_ROOT | EP_PAGES);
         add_rewrite_endpoint($tab2_slug, EP_ROOT | EP_PAGES);
+        add_rewrite_endpoint($tab3_slug, EP_ROOT | EP_PAGES);
     }
 
     public static function contenuTarifs() {
@@ -72,6 +79,20 @@ class MyAccountTabs {
             echo do_shortcode('[forminator_form id="' . intval($form_id) . '"]');
         } else {
             echo '<p>Aucun formulaire n’est configuré.</p>';
+        }
+    }
+
+    public static function contenuTarifs() {
+        $user_id = get_current_user_id();
+        // ex. ACF get_field
+        $tarif_url = get_field('factures', 'user_'.$user_id);
+
+        echo '<h3>Mes factures</h3>';
+        if ($tarif_url) {
+            echo '<p>Veuillez trouver ci-dessous vos factures. :</p>';
+            echo '<a class="button" href="' . esc_url($tarif_url) . '">Télécharger</a>';
+        } else {
+            echo '<p>Aucune facture n’est disponible.</p>';
         }
     }
 }
