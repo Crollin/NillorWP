@@ -430,4 +430,18 @@ class AdminSettings {
             '1.0'
         );
     }
+
+    // -------------------------------------------
+    //  Scripts/JS
+    // -------------------------------------------
+    add_action('wp_enqueue_scripts', function() {
+        wp_enqueue_script(
+            'creactiveweb-admin-script',
+            CREACTIVEWEB_PLUGIN_URL . 'assets/js/pvt.js',
+            [],
+            '1.0',
+            true
+        );
+    });
+    
 }
