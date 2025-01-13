@@ -9,7 +9,6 @@ class Init {
         AdminSettings::register();
 
         $options = get_option('creactive_settings');
-        var_dump(get_option('creactive_settings'));
 
         // SKU Search
         if (! empty($options['enable_feature_sku_search'])) {
