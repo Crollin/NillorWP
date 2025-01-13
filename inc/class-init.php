@@ -46,9 +46,6 @@ class Init {
         if (!empty($options['enable_feature_custom_admin'])) {
             CustomAdminUserEdit::init();
         }
-        
-    }
-
     add_filter('pvt_column_headers', function($headers) {
         $headers['quantity'] = 'Quantité'; // Exemple de traduction
         $headers['price'] = 'Prix';
@@ -56,4 +53,6 @@ class Init {
     
         return $headers;
     });
+        
+    }
 }
