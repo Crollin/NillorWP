@@ -49,7 +49,7 @@ class AdminSettings {
         self::addFeatureField('enable_feature_myaccount_info',     'Infos client sur "Mon compte"');
         self::addFeatureField('enable_feature_myaccount_tabs',     'Onglets personnalisés "Mon compte"');
         self::addFeatureField('enable_feature_custom_admin',       'Personnalisation user-edit back-office');
-        self::addFeatureField('enable_feature_pvt',                'Personnalisation pvt back-office');
+        self::addFeatureField('enable_feature_pvt',                'Personnalisation PVT');
 
         
         // --- SECTION 2 : Personnalisation “Recherche SKU” ---

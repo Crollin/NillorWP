@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class SkuSearch {
 
     public static function init() {
-        add_filter('posts_search', [ __CLASS__, 'searchBySku' ], 999, 2);
+        add_filter('posts_search', [ __CLASS__, 'searchBySku' ], PHP_INT_MAX, 2);
     }
 
     public static function searchBySku($search, $query_vars) {
@@ -18,7 +18,7 @@ class SkuSearch {
         $options = get_option('creactive_settings');
 
         // Vérifier si la recherche par SKU est activée
-        if (!isset($options['enable_sku_search']) || $options['enable_sku_search'] != 1) {
+        if (empty($options['enable_feature_sku_search']) || $options['enable_feature_sku_search'] !== '1') {
             return $search;
         }
 
