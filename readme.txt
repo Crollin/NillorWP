@@ -78,3 +78,6 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 = 2.3.9 =
 * desactivation de bouton d'ajout au panier et du selecteur de quantité quand l'utilisateur n'est pas connecté
 * Traduction des en-tête de colonne de PVY (product variation table)
+
+= 2.3.10 = 
+* Réutilisation méthode de recherche par SKU précédent plugin.
