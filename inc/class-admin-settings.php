@@ -165,6 +165,70 @@ class AdminSettings {
             'creactive-settings',
             'myaccount_tabs_section'
         );
+        
+        // --- SECTION 3 : Personnalisation Widget ---
+        add_settings_section(
+            'dashboard_widget_section',
+            'Paramètres du Widget du Tableau de Bord',
+            function () {
+                echo '<p>Personnalisez l’apparence et les actions du widget tableau de bord.</p>';
+            },
+            'creactive-settings'
+        );
+
+        add_settings_field(
+            'dashboard_api_consumer',
+            'Clé API Consumer',
+            [__CLASS__, 'field_dashboard_api_consumer'],
+            'creactive-settings',
+            'dashboard_widget_section'
+        );
+        add_settings_field(
+            'dashboard_api_secret',
+            'Clé API Secret',
+            [__CLASS__, 'field_dashboard_api_secret'],
+            'creactive-settings',
+            'dashboard_widget_section'
+        );
+        add_settings_field(
+            'dashboard_custom_logo',
+            'Logo Personnalisé',
+            [__CLASS__, 'field_dashboard_custom_logo'],
+            'creactive-settings',
+            'dashboard_widget_section'
+        );
+        add_settings_field(
+            'dashboard_custom_color',
+            'Couleur Personnalisée',
+            [__CLASS__, 'field_dashboard_custom_color'],
+            'creactive-settings',
+            'dashboard_widget_section'
+        );
+
+        // --- SECTION 4 : Personnalisation "Nous consulter" ---
+        add_settings_section(
+            'nous_consulter_section',
+            'Personnalisation du message "Nous consulter"',
+            function () {
+                echo '<p>Configurez les paramètres pour le bouton "Nous consulter".</p>';
+            },
+            'creactive-settings'
+        );
+
+        add_settings_field(
+            'nous_consulter_text',
+            'Texte "Nous consulter"',
+            [__CLASS__, 'field_nous_consulter_text'],
+            'creactive-settings',
+            'nous_consulter_section'
+        );
+        add_settings_field(
+            'nous_consulter_url',
+            'URL "Nous consulter"',
+            [__CLASS__, 'field_nous_consulter_url'],
+            'creactive-settings',
+            'nous_consulter_section'
+        );
 
     }
 
@@ -288,6 +352,50 @@ class AdminSettings {
         $options = get_option('creactive_settings');
         $val = $options['my_account_tab_3_label'] ?? 'Mes factures';
         echo '<input type="text" name="creactive_settings[my_account_tab_3_label]" value="'.esc_attr($val).'" style="width: 300px;">';
+    }
+
+    // -----------------------------------------------------
+    // Champs pour le widget du tableau de bord
+    // ----------------------------------------------------- 
+    public static function field_dashboard_api_consumer() {
+        $options = get_option('creactive_settings');
+        $val = $options['dashboard_api_consumer'] ?? '';
+        echo '<input type="text" name="creactive_settings[dashboard_api_consumer]" value="' . esc_attr($val) . '" style="width: 100%;">';
+    }
+
+    public static function field_dashboard_api_secret() {
+        $options = get_option('creactive_settings');
+        $val = $options['dashboard_api_secret'] ?? '';
+        echo '<input type="text" name="creactive_settings[dashboard_api_secret]" value="' . esc_attr($val) . '" style="width: 100%;">';
+    }
+
+    public static function field_dashboard_custom_logo() {
+        $options = get_option('creactive_settings');
+        $val = $options['dashboard_custom_logo'] ?? '';
+        echo '<input type="text" name="creactive_settings[dashboard_custom_logo]" value="' . esc_attr($val) . '" style="width: 70%;">';
+        echo '<button class="button">Télécharger le logo</button>';
+    }
+
+    public static function field_dashboard_custom_color() {
+        $options = get_option('creactive_settings');
+        $val = $options['dashboard_custom_color'] ?? '#000000';
+        echo '<input type="color" name="creactive_settings[dashboard_custom_color]" value="' . esc_attr($val) . '">';
+    }
+
+    // -----------------------------------------------------
+    // Champs pour "Nous consulter"
+    // ----------------------------------------------------- 
+
+    public static function field_nous_consulter_text() {
+        $options = get_option('creactive_settings');
+        $val = $options['nous_consulter_text'] ?? 'Nous consulter';
+        echo '<input type="text" name="creactive_settings[nous_consulter_text]" value="' . esc_attr($val) . '" style="width: 100%;">';
+    }
+
+    public static function field_nous_consulter_url() {
+        $options = get_option('creactive_settings');
+        $val = $options['nous_consulter_url'] ?? 'https://';
+        echo '<input type="url" name="creactive_settings[nous_consulter_url]" value="' . esc_attr($val) . '" style="width: 100%;">';
     }
 
     // -------------------------------------------

@@ -5,7 +5,7 @@ Tags: woocommerce, b2bking, sku, personnalisation, my account
 Requires at least: 5.8
 Tested up to: 6.3
 Requires PHP: 7.4
-Stable tag: 2.3.9
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -81,3 +81,9 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 
 = 2.3.10 = 
 * Réutilisation méthode de recherche par SKU précédent plugin.
+
+= 2.4.0 =
+* Ajustement CSS & JS dans style-admin.css pour supprimer les colonnes Prix et Ajout au panier de PVT lorsque l'utilisateur n'est pas connecté.
+* Mise à jour de init.php pour initialiser les trad de PVT (quantité et mise au panier)
+* Initialisation du fichier pvt-customization.php
+* Ajout des fonctions Widget tableau de bord et nous consulter sur le back-office

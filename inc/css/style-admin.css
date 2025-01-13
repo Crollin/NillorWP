@@ -40,3 +40,13 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
+
+.pvt-table .pvt-quantity, 
+.pvt-table .pvt-add-to-cart {
+    display: none;
+}
+
+body.logged-in .pvt-table .pvt-quantity,
+body.logged-in .pvt-table .pvt-add-to-cart {
+    display: table-cell;
+}
