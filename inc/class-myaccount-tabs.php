@@ -12,11 +12,11 @@ class MyAccountTabs {
         $options = get_option('creactive_settings');
         $tab1 = $options['my_account_tab_1_slug'] ?? 'mes-tarifs';
         $tab2 = $options['my_account_tab_2_slug'] ?? 'mes-demandes-de-devis';
-        $tab3 = $options['my_account_tab_3_slug'] ?? 'mes-factures';
+        /*$tab3 = $options['my_account_tab_3_slug'] ?? 'mes-factures';*/
 
         add_action("woocommerce_account_{$tab1}_endpoint", [ __CLASS__, 'contenuTarifs' ]);
         add_action("woocommerce_account_{$tab2}_endpoint", [ __CLASS__, 'contenuDevis' ]);
-        add_action("woocommerce_account_{$tab3}_endpoint", [ __CLASS__, 'contenuFactures' ]);
+        /*add_action("woocommerce_account_{$tab3}_endpoint", [ __CLASS__, 'contenuFactures' ]);*/
     }
 
     public static function ajouterMenuMonCompte($items) {
@@ -25,13 +25,13 @@ class MyAccountTabs {
         $tab1_label = $options['my_account_tab_1_label'] ?? 'Mes Tarifs';
         $tab2_slug  = $options['my_account_tab_2_slug']  ?? 'mes-demandes-de-devis';
         $tab2_label = $options['my_account_tab_2_label'] ?? 'Demande de devis';
-        $tab3_slug  = $options['my_account_tab_3_slug']  ?? 'mes-factures';
-        $tab3_label = $options['my_account_tab_3_label'] ?? 'Mes Factures';
+        /*$tab3_slug  = $options['my_account_tab_3_slug']  ?? 'mes-factures';
+        $tab3_label = $options['my_account_tab_3_label'] ?? 'Mes Factures';*/
 
         $nouveaux = [
             $tab1_slug => $tab1_label,
             $tab2_slug => $tab2_label,
-            $tab3_slug => $tab3_label
+            /*$tab3_slug => $tab3_label*/
         ];
 
         // Insérer juste après "Dashboard"
@@ -49,11 +49,11 @@ class MyAccountTabs {
         $options = get_option('creactive_settings');
         $tab1_slug = $options['my_account_tab_1_slug'] ?? 'mes-tarifs';
         $tab2_slug = $options['my_account_tab_2_slug'] ?? 'mes-demandes-de-devis';
-        $tab3_slug = $options['my_account_tab_3_slug'] ?? 'mes-factures';
+        /*$tab3_slug = $options['my_account_tab_3_slug'] ?? 'mes-factures';*/
 
         add_rewrite_endpoint($tab1_slug, EP_ROOT | EP_PAGES);
         add_rewrite_endpoint($tab2_slug, EP_ROOT | EP_PAGES);
-        add_rewrite_endpoint($tab3_slug, EP_ROOT | EP_PAGES);
+        /*add_rewrite_endpoint($tab3_slug, EP_ROOT | EP_PAGES);*/
     }
 
     public static function contenuTarifs() {
@@ -92,7 +92,7 @@ class MyAccountTabs {
         }
     }
 
-    public static function contenuFactures() {
+    /*public static function contenuFactures() {
         $user_id = get_current_user_id();
         // Récupérer le répéteur "factures"
         $factures = get_field('factures', 'user_' . $user_id);
@@ -181,7 +181,7 @@ class MyAccountTabs {
         } else {
             echo '<p>Aucune facture n’est disponible.</p>';
         }
-    }
+    }*/
       
     
 }

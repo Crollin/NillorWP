@@ -87,3 +87,6 @@ Plugin complet de personnalisation. Compatible WooCommerce.
 * Mise à jour de init.php pour initialiser les trad de PVT (quantité et mise au panier)
 * Initialisation du fichier pvt-customization.php
 * Ajout des fonctions Widget tableau de bord et nous consulter sur le back-office
+
+= 2.4.1=
+* Desactivation de l'option d'affichage de facture sur le compte utilisateur.

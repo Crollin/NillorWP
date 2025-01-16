@@ -343,7 +343,7 @@ class AdminSettings {
         $val = $options['my_account_tab_2_form_id'] ?? '';
         echo '<input type="number" name="creactive_settings[my_account_tab_2_form_id]" value="'.esc_attr($val).'" style="width: 100px;">';
     }
-    public static function field_my_account_tab_3_slug() {
+    /*public static function field_my_account_tab_3_slug() {
         $options = get_option('creactive_settings');
         $val = $options['my_account_tab_3_slug'] ?? 'mes-factures';
         echo '<input type="text" name="creactive_settings[my_account_tab_3_slug]" value="'.esc_attr($val).'" style="width: 300px;">';
@@ -352,7 +352,7 @@ class AdminSettings {
         $options = get_option('creactive_settings');
         $val = $options['my_account_tab_3_label'] ?? 'Mes factures';
         echo '<input type="text" name="creactive_settings[my_account_tab_3_label]" value="'.esc_attr($val).'" style="width: 300px;">';
-    }
+    }*/
 
     // -----------------------------------------------------
     // Champs pour le widget du tableau de bord
