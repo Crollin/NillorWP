@@ -12,20 +12,21 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Sécurité : empêche l'accès direct aux fichiers
+    exit; //* Sécurité : empêche l'accès direct aux fichiers
 }
 
-// -----------------------------------------------------------------------------
-// 1. Définition des constantes principales du plugin
-// -----------------------------------------------------------------------------
+
+//*? -----------------------------------------------------------------------------
+//*?  1. Définition des constantes principales du plugin
+//*?  -----------------------------------------------------------------------------
 define( 'CREACTIVEWEB_VERSION', '2.4.1' );
 define( 'CREACTIVEWEB_PLUGIN_FILE', __FILE__ );
 define( 'CREACTIVEWEB_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'CREACTIVEWEB_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-// -----------------------------------------------------------------------------
-// 2. Inclusion des fichiers de classes
-// -----------------------------------------------------------------------------
+//*? -----------------------------------------------------------------------------
+//*? 2. Inclusion des fichiers de classes
+//*? -----------------------------------------------------------------------------
 require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-activator.php';
 require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-desactivator.php';
 require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-admin-settings.php';
@@ -42,9 +43,9 @@ require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-renamer.php';
 require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-init.php';
 require_once CREACTIVEWEB_PLUGIN_PATH . 'inc/class-pvt-customization.php';
 
-// -----------------------------------------------------------------------------
-// 3. Hooks d’activation et de désactivation
-// -----------------------------------------------------------------------------
+//*? -----------------------------------------------------------------------------
+//*? 3. Hooks d’activation et de désactivation
+//*? -----------------------------------------------------------------------------
 function creactiveweb_activate_plugin() {
     \CreactiveWeb\Activator::activate();
 }
@@ -55,11 +56,11 @@ function creactiveweb_deactivate_plugin() {
 }
 register_deactivation_hook( __FILE__, 'creactiveweb_deactivate_plugin' );
 
-// -----------------------------------------------------------------------------
-// 4. Lancement du plugin
-// -----------------------------------------------------------------------------
+//*? -----------------------------------------------------------------------------
+//*? 4. Lancement du plugin
+//*? -----------------------------------------------------------------------------
 function creactiveweb_run() {
-    // On instancie la classe Init qui se charge d'initialiser toutes les features
+    //* On instancie la classe Init qui se charge d'initialiser toutes les features
     $plugin_init = new \CreactiveWeb\Init();
     $plugin_init->run();
 }
