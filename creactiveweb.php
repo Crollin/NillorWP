@@ -16,7 +16,6 @@ if (! defined('ABSPATH')) {
     exit; //* Sécurité : empêche l'accès direct aux fichiers
 }
 
-
 //*? -----------------------------------------------------------------------------
 //*?  1. Définition des constantes principales du plugin
 //*?  -----------------------------------------------------------------------------

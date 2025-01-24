@@ -1,21 +1,25 @@
 <?php
+
 namespace CreactiveWeb;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
-class DashboardWidget {
+class DashboardWidget
+{
 
-    public static function init() {
-        add_action('admin_footer', [ __CLASS__, 'customAdminDashboardWelcomePanel' ]);
-        add_action('admin_notices', [ __CLASS__, 'showCustomWelcomePanel' ]);
-        add_filter('contextual_help', [ __CLASS__, 'removeHelpTabs' ], 999, 3);
-        add_action('admin_head', [ __CLASS__, 'customWelcomePanelStyles' ]);
+    public static function init()
+    {
+        add_action('admin_footer', [__CLASS__, 'customAdminDashboardWelcomePanel']);
+        add_action('admin_notices', [__CLASS__, 'showCustomWelcomePanel']);
+        add_filter('contextual_help', [__CLASS__, 'removeHelpTabs'], 999, 3);
+        add_action('admin_head', [__CLASS__, 'customWelcomePanelStyles']);
     }
 
     // Déplacer le panneau avant #dashboard-widgets-wrap
-    public static function customAdminDashboardWelcomePanel() {
+    public static function customAdminDashboardWelcomePanel()
+    {
         $screen = get_current_screen();
         if ($screen->base !== 'dashboard') {
             return;
@@ -29,7 +33,8 @@ class DashboardWidget {
         </script>';
     }
 
-    public static function showCustomWelcomePanel() {
+    public static function showCustomWelcomePanel()
+    {
         // Vérifier si on est sur le Dashboard principal
         $screen = get_current_screen();
         if ($screen->base !== 'dashboard') {
@@ -46,7 +51,7 @@ class DashboardWidget {
 
         $options = get_option('creactive_settings');
         $logo_url = $options['custom_logo'] ?? 'https://nillor.eu/wp-content/uploads/2024/04/nillor.png';
-        
+
         // On récupère les données WC
         $data = self::customDashboardWooCommerceData();
 
@@ -87,13 +92,13 @@ class DashboardWidget {
                         <h3>Actions rapides</h3>
                         <ul style="list-style: none; padding-left: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">';
 
-                        foreach ($quick_actions_array as $action) {
-                            echo '<li>
+        foreach ($quick_actions_array as $action) {
+            echo '<li>
                                 <a href="' . esc_url(admin_url($action['url'])) . '" class="button button-' . esc_attr($action['type']) . '" style="width: 100%;">' . esc_html($action['label']) . '</a>
                             </li>';
-                        }
+        }
 
-                    echo '</ul>
+        echo '</ul>
                     </div>
 
                     <!-- Colonne 3 : État de WooCommerce -->
@@ -120,22 +125,23 @@ class DashboardWidget {
                 <div style="text-align: center; margin-top: 20px; font-size: 14px; color: #777;">
                     <p>';
 
-                    $footer_text = $options['dashboard_footer_text'] ?? 'Ce site a été conçu par';
-                    $footer_link = $options['dashboard_footer_link'] ?? 'https://creactiveweb.com';
+        $footer_text = $options['dashboard_footer_text'] ?? 'Ce site a été conçu par';
+        $footer_link = $options['dashboard_footer_link'] ?? 'https://creactiveweb.com';
 
-                    echo esc_html($footer_text) . ' <a href="' . esc_url($footer_link) . '" target="_blank" style="color: #0071a1;">Creactiveweb</a>.';
+        echo esc_html($footer_text) . ' <a href="' . esc_url($footer_link) . '" target="_blank" style="color: #0071a1;">Creactiveweb</a>.';
 
-                    echo '</p>
+        echo '</p>
                 </div>
             </div>
         </div>';
     }
 
     // Récupérer les données WooCommerce
-    public static function customDashboardWooCommerceData() {
+    public static function customDashboardWooCommerceData()
+    {
         if (!class_exists('WooCommerce')) {
             return [
-                'sales' => 'WooCommerce non disponible',
+                'sales' => 'WooCommerce non disponible',w
                 'orders_processing' => 'N/A',
                 'orders_pending' => 'N/A'
             ];
@@ -159,8 +165,8 @@ class DashboardWidget {
             ];
         }
 
-        $request_url = get_home_url() . "/wp-json/wc/v3/reports/sales?date_min=$current_year-$current_month-01&date_max=" 
-                    . date('Y-m-t', strtotime("$current_year-$current_month-01"));
+        $request_url = get_home_url() . "/wp-json/wc/v3/reports/sales?date_min=$current_year-$current_month-01&date_max="
+            . date('Y-m-t', strtotime("$current_year-$current_month-01"));
 
         $response = wp_remote_get($request_url, [
             'headers' => [
@@ -187,12 +193,14 @@ class DashboardWidget {
     }
 
     // Enlever les onglets d’aide
-    public static function removeHelpTabs($old_help, $screen_id, $screen) {
+    public static function removeHelpTabs($old_help, $screen_id, $screen)
+    {
         $screen->remove_help_tabs();
         return $old_help;
     }
 
-    public static function customWelcomePanelStyles() {
+    public static function customWelcomePanelStyles()
+    {
         $options = get_option('creactive_settings');
         $custom_color = $options['custom_colors'] ?? '#0071bc';
 
