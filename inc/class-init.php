@@ -1,10 +1,13 @@
 <?php
+
 namespace CreactiveWeb;
 
 if (!defined('ABSPATH')) exit;
 
-class Init {
-    public function run() {
+class Init
+{
+    public function run()
+    {
         // Charge la page Admin
         AdminSettings::register();
 
@@ -46,13 +49,12 @@ class Init {
         if (!empty($options['enable_feature_custom_admin'])) {
             CustomAdminUserEdit::init();
         }
-    add_filter('pvt_column_headers', function($headers) {
-        $headers['quantity'] = 'Quantité'; // Exemple de traduction
-        $headers['price'] = 'Prix';
-        $headers['add_to_cart'] = 'Ajouter au panier';
-    
-        return $headers;
-    });
-        
+        add_filter('pvt_column_headers', function ($headers) {
+            $headers['quantity'] = 'Quantité'; // Exemple de traduction
+            $headers['price'] = 'Prix';
+            $headers['add_to_cart'] = 'Ajouter au panier';
+
+            return $headers;
+        });
     }
 }
